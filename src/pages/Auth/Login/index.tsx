@@ -25,7 +25,7 @@ export function LoginPage (props: LoginPageProps) {
   // };
 
   const handleLoginFormSubmit = async (formValues: LoginPayload) => {
-   // console.log('formValues: ', formValues)
+    console.log('formValues: ', formValues)
     const res = userApi.loginUser(formValues, dispatch, navigate);
   }
 

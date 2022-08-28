@@ -20,12 +20,17 @@ export function Header (props: HeaderProps) {
                      <div className="max-w-7xl mx-auto flex justify-between items-center relative">
                          <img width="186" src="https://aht-d1-backend.arrowhitech.net/static/img/home-new/Amtech_Charcoal_clearcut.png" alt="" />
                          <ul className="flex font-semibold">
+                          <Link className="menu-item group-hover:border-white" to="/">Home</Link>
+                          <Link className="menu-item group-hover:border-white" to="/login">Login</Link>
+                          <Link className="menu-item group-hover:border-white" to="/styleguides">Styleguides</Link>
+                          <Link className="menu-item group-hover:border-white" to="/register">Register</Link>
+                          <Link className="menu-item group-hover:border-white" to="/dashboard">Dashboard</Link>
                              <li className='group'>
-                                 <a href="#" className='menu-item group-hover:border-white'>Products</a>
+                                 <Link to="products" className='menu-item group-hover:border-white'>Products</Link>
                                  <div className="grid grid-cols-4 w-full p-5 absolute top-full left-0 bg-black mt-14 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:mt-0 transition-all duration-500">
                                      <ul className="p-2">
                                          <li>
-                                             <a href="#" className='mega-sub-item-title'>Consumables</a>
+                                             <Link to="consumables" className='mega-sub-item-title'>Consumables</Link>
                                          </li>
                                          <li>
                                              <a href="#" className='mega-sub-item'>Equipment</a>
@@ -38,7 +43,7 @@ export function Header (props: HeaderProps) {
                                  </div>
                              </li>
                              <li className='group relative'>
-                                 <a href="#" className='menu-item group-hover:border-white'>Products</a>
+                                 <Link to="products" className='menu-item group-hover:border-white'>Products</Link>
                                  <ul className="absolute left-0 bg-black w-max mt-14 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:mt-0 transition-all duration-500">
                                      <li className="sub-dropdown relative">
                                          <a href="#" className='menu-sub-item'>Consumables</a>

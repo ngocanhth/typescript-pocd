@@ -61,14 +61,14 @@ const userApi = {
 
 
     loginUser: async (user: LoginPayload, dispatch: Function, navigate: Function) => {
-        dispatch(loginStart());
+            dispatch(loginStart());
         try {
-        const res: LoginResponse = await axiosClient.post("/customer/login/", user);
-        dispatch(loginSuccess(res));
-        //  console.log("user2: ", res)
-        navigate("/dashboard");
+            const res: LoginResponse = await axiosClient.post("/customer/login/", user);
+            dispatch(loginSuccess(res));
+             console.log("user2: ", res)
+            navigate("/dashboard");
         } catch (err) {
-        dispatch(loginFailed());
+            dispatch(loginFailed());
         }
     },
 
