@@ -50,6 +50,7 @@ export const RouteList: CustomRoutes[] = [
   {
     path: "dashboard",
     element: <LeftSidebarLayout />,
+    isAuth: true,
     children: [
       {
         index: true,

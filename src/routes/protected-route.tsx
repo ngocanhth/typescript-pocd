@@ -10,7 +10,8 @@ interface ProtectedRouteProps {
 
 export const ProtectedRoute = ({ isAuth, children }: ProtectedRouteProps) => {
   const userStore = useAppSelector((state: RootState) => state.auth);
-  if (isAuth && !userStore.isLoggedIn) {
+
+  if (isAuth && !userStore.login.isLoggedIn) {
     return <Navigate to="/" replace />;
   }
 

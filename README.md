@@ -16,3 +16,5 @@ git push -u origin main
 # Install other package
 yarn add path @types/node react-router-dom history react-redux @reduxjs/toolkit axios react-slick slick-carousel
 yarn add -D sass @types/react-slick
+
+yarn add react-hook-form yup  @hookform/resolvers jwt-decode

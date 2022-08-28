@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@/store/hooks';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const axiosClient = axios.create({
@@ -11,6 +12,19 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   function (config: AxiosRequestConfig) {
     // Do something before request is sent
+    let date = new Date();
+    const dispatch = useAppDispatch();
+      // const decodedToken = jwt_decode(user?.accessToken);
+      // if (decodedToken.exp < date.getTime() / 1000) {
+      //   const data = await refreshToken();
+      //   const refreshUser = {
+      //     ...user,
+      //     accessToken: data.accessToken,
+      //   };
+      //   dispatch(stateSuccess(refreshUser));
+      //   config.headers["token"] = "Bearer " + data.accessToken;
+      // }
+
     return config;
   },
   function (error) {
