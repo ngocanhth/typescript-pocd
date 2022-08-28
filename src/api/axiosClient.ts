@@ -12,8 +12,8 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   function (config: AxiosRequestConfig) {
     // Do something before request is sent
-    let date = new Date();
-    const dispatch = useAppDispatch();
+   // let date = new Date();
+    // const dispatch = useAppDispatch();
       // const decodedToken = jwt_decode(user?.accessToken);
       // if (decodedToken.exp < date.getTime() / 1000) {
       //   const data = await refreshToken();
