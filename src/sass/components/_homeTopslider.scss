@@ -1,0 +1,12 @@
+.item-slider {
+    position: relative;
+}
+.slider-content {
+    position: absolute;
+    z-index: 1;
+    right: calc((100% - 1200px) / 2);
+    top: 50%;
+    transform: translateY(-50%);
+    max-width: 750px;
+    width: 100%;
+}
