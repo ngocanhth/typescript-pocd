@@ -14,7 +14,7 @@ export interface LoginPayload {
 
 export interface AuthState {
     login:{
-        currentUser: User,
+        currentUser: User | null,
         isFetching: boolean,
         isLoggedIn: boolean,
         error: boolean
@@ -100,7 +100,8 @@ const authSlice = createSlice({
     },
     logOutSuccess: (state) => {
         state.login.isFetching = false;
-        // state.login.currentUser = null;
+        state.login.currentUser = null;
+        state.login.isLoggedIn = false;
         state.login.error = false;
     },
     logOutFailed: (state) =>{

@@ -3,6 +3,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const axiosClient = axios.create({
   baseURL: 'http://127.0.0.1:8000/api/v1/',
+  // baseURL: 'https://aht-d1-backend.arrowhitech.net/api/v1/',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -9,7 +9,7 @@ import { ReactElement } from "react";
 
 export interface CustomRoutes {
   path?: string;
-  element: ReactElement;
+  element?: ReactElement;
   isAuth?: boolean;
   index?: boolean;
   children?: CustomRoutes[];
@@ -33,6 +33,11 @@ export const RouteList: CustomRoutes[] = [
         element: <LoginPage />,
       }
     ],
+  },
+
+  {
+    path: "logout",
+    isAuth: true,
   },
 
   {

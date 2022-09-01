@@ -31,6 +31,7 @@
 
 import { User, LoginResponse, LoginPayload } from '@/models/user';
 import { loginFailed, loginStart, loginSuccess, logOutFailed, logOutStart, logOutSuccess } from '@/pages/Auth';
+import { history } from '@/utils/history';
 import axiosClient from './axiosClient';
 
 const userApi = {
@@ -72,10 +73,28 @@ const userApi = {
         }
     },
 
-    logOut: async (dispatch: Function, id: string, navigate: Function, accessToken: string, axiosJWT: any) => {
+    logOut: async (dispatch: Function, navigate: Function) => {
         dispatch(logOutStart());
         try {
-          await axiosJWT.post("/v1/auth/logout", id, {
+          // await axiosJWT.post("/auth/logout", id, {
+          //   headers: { token: `Bearer ${accessToken}` },
+          // });
+
+          dispatch(logOutSuccess());
+
+         
+
+          navigate("/login");
+          console.log("logout success");
+        } catch (err) {
+          dispatch(logOutFailed());
+        }
+      },
+
+      getAccountDetail: async (dispatch: Function, id: string, navigate: Function, accessToken: string, axiosJWT: any) => {
+        dispatch(logOutStart());
+        try {
+          await axiosJWT.post(`/customer-detail/${id}`, {
             headers: { token: `Bearer ${accessToken}` },
           });
           dispatch(logOutSuccess());

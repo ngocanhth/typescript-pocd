@@ -3,14 +3,14 @@ export interface LoginPayload {
     password: string
 }
 export interface LoginResponse {
-    id: number | string;
+    id: string | undefined;
     first_name: string;
     last_name: string;
     access_token: string;
     refresh_token: string;
 }
 export interface User {
-    id: number | string;
+    id: string | undefined;
     first_name: string;
     last_name: string;
     access_token: string;
