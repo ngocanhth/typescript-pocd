@@ -1,8 +1,10 @@
 import authReducer from "@/pages/Auth/authSlice";
+import userReducer from "@/pages/Auth/userSlice";
 import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/toolkit";
 
 const rootReducer = combineReducers({
     auth: authReducer,
+    user: userReducer,
 });
 
 export const store = configureStore({

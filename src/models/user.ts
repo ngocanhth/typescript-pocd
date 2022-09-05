@@ -17,9 +17,35 @@ export interface User {
     refresh_token: string;
 }
 
-  
-// export interface MyLibraryEntity {
-//     _id: string;
-//     user: UserEntity | string;
-//     songs: Array<MusicEntity> | string;
-//   }
+export interface UserDetail {
+    id: string | undefined;
+    first_name: string;
+    last_name: string;
+    fullname: string;
+    access_token: string;
+    contact_email:  string;
+    username: string;
+    account_name: string;
+    customer_number: string;
+}
+
+export interface UserDetailResponse {
+    
+}
+
+
+export interface AccountDetailPayload {
+    id: string | undefined;
+    dispatch: Function;
+    accessToken: string;
+}
+export interface AccountDetailResponse {
+    id: string | undefined;
+    first_name: string;
+    last_name: string;
+    fullname: string;
+    contact_email: string;
+    username:  string;
+    account_name: string;
+    customer_number: string;
+}

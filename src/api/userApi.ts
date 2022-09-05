@@ -29,8 +29,8 @@
 
 // export default userApi;
 
-import { User, LoginResponse, LoginPayload } from '@/models/user';
-import { loginFailed, loginStart, loginSuccess, logOutFailed, logOutStart, logOutSuccess } from '@/pages/Auth';
+import { User, LoginResponse, LoginPayload, AccountDetailResponse, AccountDetailPayload } from '@/models/user';
+import { getUsersFailed, getUsersSuccess, loginFailed, loginStart, loginSuccess, logOutFailed, logOutStart, logOutSuccess } from '@/pages/Auth';
 import { history } from '@/utils/history';
 import axiosClient from './axiosClient';
 
@@ -91,19 +91,22 @@ const userApi = {
         }
       },
 
-      getAccountDetail: async (dispatch: Function, id: string, navigate: Function, accessToken: string, axiosJWT: any) => {
-        dispatch(logOutStart());
+      getAccountDetail: async ({id, dispatch, accessToken}: AccountDetailPayload) => {
         try {
-          await axiosJWT.post(`/customer-detail/${id}`, {
-            headers: { token: `Bearer ${accessToken}` },
-          });
-          dispatch(logOutSuccess());
-          navigate("/login");
+          console.log("id la: ", id);
+          console.log("accessToken la: ", accessToken);
+
+          const res: AccountDetailResponse = await axiosClient.get(`/customer-detail/${id}`,
+            {
+              headers: { Authorization: `Bearer ${accessToken}` },
+            }
+          );
+          dispatch(getUsersSuccess(res));
         } catch (err) {
-          dispatch(logOutFailed());
+          console.log(err);
+          dispatch(getUsersFailed());
         }
       }
-    
 };
 
 export default userApi;
