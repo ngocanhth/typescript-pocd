@@ -2,13 +2,19 @@ import userApi from '@/api/userApi';
 import { AccountDetailPayload } from '@/models/user';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export interface AccountDetailProps {
 }
 
 export function AccountDetail (props: AccountDetailProps) {
   const currentUser = useAppSelector((state) => state.auth.login?.currentUser);
+  const isLoggedIn = useAppSelector((state) => state.auth.login?.isLoggedIn);
   const currentUserDetail = useAppSelector((state) => state.user.users.usersDetail);
+  const msg = useAppSelector((state) => state.user?.msg);
+
+  const navigate = useNavigate();
+
   const id: any = currentUser?.id;
   const dispatch = useAppDispatch();
   const accessToken: any = currentUser?.access_token;
@@ -30,20 +36,28 @@ export function AccountDetail (props: AccountDetailProps) {
   //   console.log("userDetail: ", userDetail);
   // }, []);
 
-  useEffect(() => {
-    // declare the data fetching function
-    const fetchData = async () => {
-      const userDetail = await userApi.getAccountDetail(accountDetail);
-      console.log("userDetail: ", userDetail);
-    }
+  // useEffect(() => {
+  //   // declare the data fetching function
+  //   const fetchData = async () => {
+  //     const userDetail = await userApi.getAccountDetail(accountDetail);
+  //     console.log("userDetail: ", userDetail);
+  //   }
   
-    // call the function
+  //   // call the function
 
-    fetchData()
-      // make sure to catch any error
-      .catch(console.error);
-  }, [])
+  //   fetchData()
+  //     // make sure to catch any error
+  //     .catch(console.error);
+  // }, [])
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+    if (currentUser?.access_token) {
+      userApi.getAccountDetail(accountDetail);
+    }
+  }, []);
 
 
   return (

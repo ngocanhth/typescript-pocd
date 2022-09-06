@@ -31,8 +31,10 @@
 
 import { User, LoginResponse, LoginPayload, AccountDetailResponse, AccountDetailPayload } from '@/models/user';
 import { getUsersFailed, getUsersSuccess, loginFailed, loginStart, loginSuccess, logOutFailed, logOutStart, logOutSuccess } from '@/pages/Auth';
+import { persistor } from '@/store';
 import { history } from '@/utils/history';
 import axiosClient from './axiosClient';
+import { createAxios } from "./createInstance";
 
 const userApi = {
 //   getAll(params: ListParams): Promise<ListResponse<Student>> {
@@ -82,7 +84,10 @@ const userApi = {
 
           dispatch(logOutSuccess());
 
-         
+          persistor.pause();
+          persistor.flush().then(() => {
+            return persistor.purge();
+          });
 
           navigate("/login");
           console.log("logout success");
