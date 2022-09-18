@@ -3,7 +3,7 @@ import {
   Routes,
   unstable_HistoryRouter as HistoryRouter,
  } from 'react-router-dom'
-import { CustomRoutes, RouteList } from './routes'
+import { CustomRoutes, RouteList } from './routes/index'
 import { RecursiveRoute } from './routes/recursive-route'
 import { history } from './utils/history'
 

@@ -1,6 +1,6 @@
 import { Route } from "react-router-dom";
 import { ProtectedRoute } from "./protected-route";
-import { CustomRoutes } from "./routes";
+import { CustomRoutes } from "./index";
 
 export const RecursiveRoute = (route: CustomRoutes) => {
   return (

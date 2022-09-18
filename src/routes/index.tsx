@@ -9,7 +9,7 @@ import { ReactElement } from "react";
 
 export interface CustomRoutes {
   path?: string;
-  element?: ReactElement;
+  element: ReactElement;
   isAuth?: boolean;
   index?: boolean;
   children?: CustomRoutes[];
@@ -38,6 +38,7 @@ export const RouteList: CustomRoutes[] = [
   {
     path: "logout",
     isAuth: true,
+    element: <LoginPage />,
   },
 
   {
@@ -67,19 +68,6 @@ export const RouteList: CustomRoutes[] = [
       },
     ],
   },
-
-//   // ----------- My library  -----------
-//   {
-//     path: "thu-vien",
-//     element: <DefaultLayout />,
-//     children: [
-//       {
-//         index: true,
-//         isAuth: true,
-//         element: <MyLibraryPage />,
-//       },
-//     ],
-//   },
   {
     path: "styleguides",
     element: <DefaultLayout />,

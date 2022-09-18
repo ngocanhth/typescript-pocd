@@ -41,9 +41,19 @@ export const createAxios = (user: User, dispatch: Function, stateSuccess: Functi
           refresh_token: data.refresh_token,
           access_token: data.access_token,
         };
+        
         dispatch(stateSuccess(refreshUser));
-        config.headers["Authorization"] = "Bearer " + data.access_token;
+
+          // let token = window.localStorage.getItem('persist:auth') && JSON.parse(window.localStorage.getItem('persist:auth'))?.token?.slice(1, -1)
+          config.headers = {
+              Authorization: "Bearer" + data.access_token
+          }
+
+       // config.headers["Authorization"] = `Bearer ${data.access_token}`;
+
+        // axios.defaults.headers.common['Authorization']
       }
+
       return config;
     },
     (err) => {
