@@ -1,6 +1,7 @@
 import { DefaultLayout } from "@/layouts/DefaultLayout";
 import { LeftSidebarLayout } from "@/layouts/LeftSidebarLayout";
 import { LoginPage, RegisterPage } from "@/pages/Auth";
+import { CategoryList } from "@/pages/Category";
 import HomePage from "@/pages/Home";
 import { AccountDetail, OrderList } from "@/pages/MyAccount";
 import { PageNotFound } from "@/pages/PageNotFound";
@@ -75,6 +76,16 @@ export const RouteList: CustomRoutes[] = [
       {
         index: true,
         element: <Styleguides />,
+      },
+    ]
+  },
+  {
+    path: "shop",
+    element: <LeftSidebarLayout />,
+    children: [
+      {
+        index: true,
+        element: <CategoryList />,
       },
     ]
   },

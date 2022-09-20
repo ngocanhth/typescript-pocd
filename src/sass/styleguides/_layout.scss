@@ -3,3 +3,20 @@
     padding: 0 15px;
     margin: 0 auto;
 }
+
+.page-main {
+    // display: grid;
+    // grid-template-columns: repeat(2, minmax(0, 1fr));
+    // gap: 30px;
+    display: flex;
+    padding: 24px;
+
+    .sidebar {
+        width: 300px;
+        padding-right: 30px;
+    }
+
+    .column-main {
+        flex: 1;
+    }
+}

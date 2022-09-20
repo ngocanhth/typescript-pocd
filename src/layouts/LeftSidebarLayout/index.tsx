@@ -7,10 +7,12 @@ export interface DefaultLayoutProps {
 
 export function LeftSidebarLayout (props: DefaultLayoutProps) {
   return (
-    <div>
+    <div className='pagge-wrapper'>
       <Header/>
-      <SideBar/>
+      <main className='page-main'>
+        <SideBar/>
         <Outlet />
+      </main>
       <Footer/>
     </div>
   );

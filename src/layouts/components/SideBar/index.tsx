@@ -21,7 +21,7 @@ export function SideBar (props: SideBarProps) {
    userApi.logOut(dispatch,navigate);
   }
   return (
-    <div>
+    <div className='sidebar'>
         <nav className="navbar-container">
               <Link to="/" className="navbar-home"> Home </Link>
               {currentUser? (
