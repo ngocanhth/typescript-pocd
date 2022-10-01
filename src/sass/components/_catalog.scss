@@ -76,3 +76,19 @@
         }
     }
 }
+
+.category {
+    display: flex;
+    padding: 20px;
+    column-gap: 30px;
+
+    .sirebar {
+        width: 270px;
+    }
+    .category-list {
+        flex: 1;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: 30px;
+    }
+}
