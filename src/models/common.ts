@@ -18,6 +18,9 @@ export interface PaginationParams {
 //     [key: string]: any;
 //   }
 
+export interface ListCategoryParams {
+  slug?: string;
+}
   export interface ListParams {
     slug?: string;
     page?: number;

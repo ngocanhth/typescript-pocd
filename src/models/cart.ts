@@ -9,7 +9,6 @@ export interface cartPayload {
     product_url: string;
 }
 
-export interface cartResponse {
-    cart: cartPayload;
+export interface cartResponse extends cartPayload {
     message: string | null
 }

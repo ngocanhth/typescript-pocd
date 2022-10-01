@@ -80,8 +80,8 @@ export const RouteList: CustomRoutes[] = [
     ]
   },
   {
-    path: "shop",
-    element: <LeftSidebarLayout />,
+    path: "category",
+    element: <DefaultLayout />,
     children: [
       {
         index: true,

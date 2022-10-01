@@ -1,19 +1,17 @@
-import { cartPayload, cartResponse, Category, ListParams, ListResponse, product } from '@/models';
+import { cartPayload, cartResponse, Category, ListCategoryParams, ListParams, ListResponse, product } from '@/models';
 import axiosClient from './axiosClient';
 
 const categoryApi = {
-  getAllCategories(): Promise<ListResponse<Category>> {
+  async getAllCategories(params: ListCategoryParams): Promise<ListResponse<Category>> {
     const url = 'category/';
-    return axiosClient.get(url);
-  },
-
-  getChildCategory(slug: string): Promise<ListResponse<Category>> {
-    const url = 'category/';
-    return axiosClient.get(url);
+    const categoryList: Category[] = await axiosClient.get(url, { params });
+    return {
+      data: categoryList
+    }
   },
   
   getProductByCategory(params: ListParams): Promise<ListResponse<product>> {
-    const url = 'category/';
+    const url = 'product-list/';
     return axiosClient.get(url, { params });
   },
 

@@ -43,7 +43,7 @@ export function Header (props: HeaderProps) {
                                  </div>
                              </li>
                              <li className='group relative'>
-                                 <Link to="shop" className='menu-item group-hover:border-white'>shop</Link>
+                                 <Link replace to="category" className='menu-item group-hover:border-white'>Category</Link>
                                  <ul className="absolute left-0 bg-black w-max mt-14 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:mt-0 transition-all duration-500">
                                      <li className="sub-dropdown relative">
                                          <a href="#" className='menu-sub-item'>Consumables</a>

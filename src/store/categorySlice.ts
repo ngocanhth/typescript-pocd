@@ -1,61 +1,58 @@
-import { Category, ListParams, ListResponse, PaginationParams } from '@/models';
+import { Category, ListCategoryParams, ListResponse } from '@/models';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '.';
 
 export interface CategoryState {
   loading: boolean;
   list: Category[];
-  filter: ListParams;
-  pagination: PaginationParams;
+  filter: ListCategoryParams;
 }
 
 const initialState: CategoryState = {
   loading: false,
   list: [],
   filter: {
-    _page: 1,
-    _limit: 15,
-  },
-  pagination: {
-    _page: 1,
-    _limit: 15,
-    _totalRows: 15,
-  },
+    slug: undefined
+  }
 };
 
 const categorySlice = createSlice({
   name: 'category',
   initialState,
   reducers: {
-    fetchCategoryList(state, action: PayloadAction<ListParams>) {
+    
+    fetchCategoryList(state, action: PayloadAction<ListCategoryParams>) {
+      console.log('testok');
+
       state.loading = true;
     },
     fetchCategoryListSuccess(state, action: PayloadAction<ListResponse<Category>>) {
+      
+      // console.log('action.payload: ', action.payload);
       state.list = action.payload.data;
-      state.pagination = action.payload.pagination;
+      // console.log('fect dataok: ', state.list);
       state.loading = false;
     },
     fetchCategoryListFailed(state) {
       state.loading = false;
     },
 
-    setFilter(state, action: PayloadAction<ListParams>) {
+    setFilter(state, action: PayloadAction<ListCategoryParams>) {
       state.filter = action.payload;
     },
 
-    setFilterWithDebounce(state, action: PayloadAction<ListParams>) {},
+    // setFilterWithDebounce(state, action: PayloadAction<ListCategoryParams>) {},
   },
 });
 
 // Actions
-export const studentActions = categorySlice.actions;
+export const categoryActions = categorySlice.actions;
 
 // Selectors
-export const selectStudentList = (state: RootState) => state.student.list;
-export const selectStudenLoading = (state: RootState) => state.student.loading;
-export const selectStudentFilter = (state: RootState) => state.student.filter;
-export const selectStudentPagination = (state: RootState) => state.student.pagination;
+export const selectCategoryList = (state: RootState) => state.category.list;
+export const selectCategoryLoading = (state: RootState) => state.category.loading;
+export const selectCategoryFilter = (state: RootState) => state.category.filter;
 
 // Reducer
-const studentReducer = studentSlice.reducer;
-export default studentReducer;
+const categoryReducer = categorySlice.reducer;
+export default categoryReducer;
