@@ -1,8 +1,8 @@
 import categoryApi from '@/api/categoryApi';
-import { Category, ListResponse } from '@/models';
+import { Category, ListCategoryParams, ListResponse } from '@/models';
 import { categoryActions, selectCategoryFilter, selectCategoryList, selectCategoryLoading } from '@/store/categorySlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 
 export interface ICategoryListProps {
 }
@@ -33,19 +33,41 @@ export function CategoryList (props: ICategoryListProps) {
 
   console.log(categoriesList);
 
+  const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+
+    const newFilter: ListCategoryParams = {
+      ...filter,
+      slug: e.target.value || undefined,
+    };
+    dispatch(categoryActions.setFilter(newFilter))
+  };
+
+  const handleClearFilter = () => {
+    const newFilter: ListCategoryParams = {
+      ...filter,
+      slug: undefined
+    };
+
+    dispatch(categoryActions.setFilter(newFilter))
+  };
+
   return (
     <div className='column-main'>
       <div className='category'>
-         {categoriesList.map((category) => (
+          <button onClick={handleClearFilter}>
+            Clear Filter
+          </button>
+         {categoriesList.length > 0 ?categoriesList.map((category) => (
           <ul key = {category.uuid}>
             <li>
-              <input name="category" id={category.uuid} type="radio"/>
+              <input onChange={handleCategoryChange} name="category" value = {(category.slug as string).split('/')[(category.slug as string).split('/').length - 1]} id={category.uuid} type="radio"/>
               <label htmlFor={category.uuid}>
                 {category.name}
               </label>
             </li>
           </ul>
-        ))}
+        )): (<div> No children category found</div>) }
       </div>
     </div>
   );
