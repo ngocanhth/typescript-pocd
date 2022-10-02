@@ -30,16 +30,16 @@ const productSlice = createSlice({
   reducers: {
     
     fetchProductList(state, action: PayloadAction<ListParams>) {
-      console.log('start fect product list');
+      // console.log('start fect product list');
       state.loading = true;
     },
 
     fetchProductListSuccess(state, action: PayloadAction<ListResponse<Product>>) {
       
-      console.log('product list: action.payload: ', action.payload);
+      // console.log('product list: action.payload: ', action.payload);
       state.list = action.payload.data;
 
-      console.log('fect dataok: ', action.payload);
+      // console.log('fect dataok: ', action.payload);
       
       state.pagination = action.payload.pagination;
       // console.log('fect dataok: ', state.list);

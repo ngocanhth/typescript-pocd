@@ -1,15 +1,17 @@
 import categoryApi from '@/api/categoryApi';
+import Pagination from '@/components/Pagination';
 import { Category, ListCategoryParams, ListCategoryResponse, ListParams, ListResponse, Product } from '@/models';
 import { categoryActions, selectCategoryFilter, selectCategoryList, selectCategoryLoading } from '@/store/categorySlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { productActions, selectProductFilter, selectProductList, selectProductLoading, selectProductPagination } from '@/store/productSlice';
-import { ChangeEvent, useEffect } from 'react';
-import isNil from "lodash/isNil";
 import isNaN from "lodash/isNaN";
+import isNil from "lodash/isNil";
+import queryString from 'query-string';
+import { ChangeEvent, useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ProductsList } from './components/ProductsList';
-import Pagination from '@/components/Pagination';
-import { useNavigate } from 'react-router-dom';
-import { current } from '@reduxjs/toolkit';
+import { history } from '../../utils/history'
+
 export interface ICategoryListProps {
 }
 
@@ -20,6 +22,26 @@ export function CategoryList (props: ICategoryListProps) {
   const categoriesList = useAppSelector(selectCategoryList);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // console.log('location: ', location );
+  
+  const params = queryString.parse(location.search);
+
+   console.log('params: ', params);
+
+  const queryParams = useMemo(() => {
+    const params: any = queryString.parse(location.search);
+
+    return {
+      ...params,
+     // slug: Number.parseInt(params.slug),
+      page: Number.parseInt(params.page) || 1,
+      sort: params.sort || 'default',
+    };
+  }, [location.search]);
+
+  // console.log('queryParams: ', queryParams);
 
   useEffect(() => {
     (async () => {
@@ -40,12 +62,12 @@ export function CategoryList (props: ICategoryListProps) {
 
 
   const filterProduct = useAppSelector(selectProductFilter);
-  console.log('filterProduct: ', filterProduct)
+  // console.log('filterProduct: ', filterProduct)
   const loadingProduct = useAppSelector(selectProductLoading);
   const productList = useAppSelector(selectProductList);
   const pagination = useAppSelector(selectProductPagination);
 
-  console.log('pagination:', pagination);
+  // console.log('pagination:', pagination);
 
   useEffect(() => {
     (async () => {
@@ -53,11 +75,11 @@ export function CategoryList (props: ICategoryListProps) {
         dispatch(productActions.fetchProductList(filterProduct));
         const response: ListResponse<Product> = await categoryApi.getProductByCategory(filterProduct);
         
-        console.log('response product: ', response);
+        // console.log('response product: ', response);
 
         dispatch(productActions.fetchProductListSuccess(response));
       } catch (error) {
-        console.log('Failed to fetch product list: ', error);
+        // console.log('Failed to fetch product list: ', error);
         dispatch(productActions.fetchProductListFailed());
       }
 
@@ -67,13 +89,27 @@ export function CategoryList (props: ICategoryListProps) {
   // console.log(categoriesList);
 
   const handleCategoryChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
 
     const newFilter: ListCategoryParams = {
       ...filter,
       slug: e.target.value || undefined,
     };
-    dispatch(categoryActions.setFilter(newFilter))
+
+    const newFilterProduct: ListParams = {
+      ...queryParams,
+      slug: e.target.value || undefined,
+    };
+
+    // console.log('newFilter: ', selected);
+
+    dispatch(productActions.setFilter(newFilterProduct));
+    dispatch(categoryActions.setFilter(newFilter));
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(newFilterProduct),
+    });
   };
 
   const handleClearFilter = () => {
@@ -82,7 +118,15 @@ export function CategoryList (props: ICategoryListProps) {
       slug: undefined
     };
 
-    dispatch(categoryActions.setFilter(newFilter))
+    const newFilterProduct: ListParams = {
+      ...queryParams,
+      page: 1,
+      slug: undefined,
+      sort: undefined
+    };
+
+    dispatch(categoryActions.setFilter(newFilter));
+    dispatch(productActions.setFilter(newFilterProduct));
   };
 
  
@@ -91,25 +135,39 @@ export function CategoryList (props: ICategoryListProps) {
   ? Number(location.search.split("=")[1])
   : 1;
 
-
   const handlePageChange = ({ selected }: { selected: number }) => {
     const currentPage =  selected + 1;
     const newFilter: ListParams = {
-      ...filterProduct,
+      ...queryParams,
       page: currentPage || undefined,
     };
 
     // console.log('newFilter: ', selected);
 
-    dispatch(productActions.setFilter(newFilter))
+    dispatch(productActions.setFilter(newFilter));
+    // navigate(`?page=${selected + 1}`, { replace: true })}
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(newFilter),
+    });
   };
 
-  // const handlePageChange = ({ selected }) => {
-  //   //setCurrentPage(selected + 1);
-  //   console.log('selected: ', selected);
-    
-  //   navigate(`?page=${selected + 1}`, { replace: true })}
-  // };
+  const handleSortChange = (e: ChangeEvent<{ name?: string; value: unknown }>) => {
+    const newSort = e.target.value;
+    // console.log('newSort: ', newSort);
+    const newFilter: ListParams = {
+      ...queryParams,
+      sort: newSort
+    };
+
+    dispatch(productActions.setFilter(newFilter));
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(newFilter),
+    });
+  };
+
 
   return (
     <div className='column-main'>
@@ -131,31 +189,19 @@ export function CategoryList (props: ICategoryListProps) {
         </div>
         <div className='category-list'>
           {!isNil(productList) ? (
-                  // productList.map((product) => (
-                  // <ul key = {product.sku}>
-                  //   <li>
-                  //     <div className='product-item'>
-                  //       <div className='product-media'>
-                  //         <img src= { (product.image_url as string).split('product/')[(product.image_url as string).split('product/').length - 1] } alt="" />
-                  //       </div>
-                  //       <div className='product-info'>
-                  //         <p className='product-name'>
-                  //         {product.name}
-                  //         </p>
-                  //         <div className='product-sku'>
-                  //           {product.sku}
-                  //         </div>
-                  //         <div className='product-sku'>
-                  //           {product.price}
-                  //         </div>
-                  //         <div className='product-description'>
-                  //           {product.badge_text}
-                  //         </div>
-                  //       </div>
-                  //     </div>
-                  //   </li>
-                  // </ul>
                   <>
+                  <select
+                    value={filterProduct.sort ? `${filterProduct.sort}` : ''}
+                    onChange={handleSortChange}
+                  >
+                    <option value="default">
+                      Default
+                    </option>
+                    <option value="price-low-high">Price - Low to High</option>
+                    <option value="price-high-low">Price - High to Low</option>
+                    <option value="name-a-z">Name - A to Z</option>
+                    <option value="name-z-a">Name - Z to A</option>
+                  </select>
                     <ProductsList productList={productList} />
                     <Pagination
                       initialPage={pageNumber - 1}
