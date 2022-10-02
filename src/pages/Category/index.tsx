@@ -92,7 +92,7 @@ export function CategoryList (props: ICategoryListProps) {
   : 1;
 
 
-  const handlePageChange = ({ selected }) => {
+  const handlePageChange = ({ selected }: { selected: number }) => {
     const currentPage =  selected + 1;
     const newFilter: ListParams = {
       ...filterProduct,
