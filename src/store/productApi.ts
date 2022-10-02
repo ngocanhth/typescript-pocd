@@ -1,4 +1,4 @@
-import { Product, ListParams, ListResponse } from '@/models';
+import { Product, ListParams, ListResponse, PaginationParams } from '@/models';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '.';
 
@@ -6,12 +6,18 @@ export interface ProductState {
   loading: boolean;
   list: Product[];
   filter: ListParams;
+  pagination: PaginationParams;
 }
 
 const initialState: ProductState = {
   loading: false,
   list: [],
-  filter: {}
+  filter: {},
+  pagination: {
+    page: 1,
+    limit: 9,
+    totalRows: 9,
+  },
 };
 
 const productSlice = createSlice({
@@ -28,6 +34,10 @@ const productSlice = createSlice({
       
       console.log('product list: action.payload: ', action.payload);
       state.list = action.payload.data;
+
+      console.log('fect dataok: ', action.payload);
+      
+      state.pagination = action.payload.pagination;
       // console.log('fect dataok: ', state.list);
       state.loading = false;
     },
@@ -51,6 +61,7 @@ export const productActions = productSlice.actions;
 export const selectProductList = (state: RootState) => state.product.list;
 export const selectProductLoading = (state: RootState) => state.product.loading;
 export const selectProductFilter = (state: RootState) => state.product.filter;
+export const selectProductPagination = (state: RootState) => state.product.pagination;
 
 // Reducer
 const productReducer = productSlice.reducer;

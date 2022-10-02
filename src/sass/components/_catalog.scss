@@ -85,10 +85,31 @@
     .sirebar {
         width: 270px;
     }
-    .category-list {
+    .ProductsList {
         flex: 1;
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         column-gap: 30px;
+    }
+}
+
+
+.Pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+    
+    .Pagination__page-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+        width: 30px;
+        height: 30px;
+
+        &.Pagination__active {
+            background-color: #ccc;
+        }
     }
 }

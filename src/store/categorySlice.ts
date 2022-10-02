@@ -1,4 +1,4 @@
-import { Category, ListCategoryParams, ListResponse } from '@/models';
+import { Category, ListCategoryParams, ListCategoryResponse, ListResponse } from '@/models';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '.';
 
@@ -26,7 +26,7 @@ const categorySlice = createSlice({
 
       state.loading = true;
     },
-    fetchCategoryListSuccess(state, action: PayloadAction<ListResponse<Category>>) {
+    fetchCategoryListSuccess(state, action: PayloadAction<ListCategoryResponse<Category>>) {
       
       // console.log('action.payload: ', action.payload);
       state.list = action.payload.data;
