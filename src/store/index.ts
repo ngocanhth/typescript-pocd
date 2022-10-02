@@ -13,7 +13,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import categoryReducer from "./categorySlice";
-import productReducer from "./productApi";
+import productReducer from "./productSlice";
 
 const persistConfig = {
   key: "root",

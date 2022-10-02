@@ -12,7 +12,11 @@ export interface ProductState {
 const initialState: ProductState = {
   loading: false,
   list: [],
-  filter: {},
+  filter: {
+    slug: undefined,
+    page: 1,
+    sort: undefined,
+  },
   pagination: {
     page: 1,
     limit: 9,
@@ -47,6 +51,9 @@ const productSlice = createSlice({
     },
 
     setFilter(state, action: PayloadAction<ListParams>) {
+
+      console.log('new filter product: ', action.payload);
+
       state.filter = action.payload;
     },
 

@@ -1,14 +1,15 @@
 import categoryApi from '@/api/categoryApi';
-import { Category, ListCategoryParams, ListCategoryResponse, ListResponse, Product } from '@/models';
+import { Category, ListCategoryParams, ListCategoryResponse, ListParams, ListResponse, Product } from '@/models';
 import { categoryActions, selectCategoryFilter, selectCategoryList, selectCategoryLoading } from '@/store/categorySlice';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { productActions, selectProductFilter, selectProductList, selectProductLoading, selectProductPagination } from '@/store/productApi';
+import { productActions, selectProductFilter, selectProductList, selectProductLoading, selectProductPagination } from '@/store/productSlice';
 import { ChangeEvent, useEffect } from 'react';
 import isNil from "lodash/isNil";
 import isNaN from "lodash/isNaN";
 import { ProductsList } from './components/ProductsList';
 import Pagination from '@/components/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { current } from '@reduxjs/toolkit';
 export interface ICategoryListProps {
 }
 
@@ -39,6 +40,7 @@ export function CategoryList (props: ICategoryListProps) {
 
 
   const filterProduct = useAppSelector(selectProductFilter);
+  console.log('filterProduct: ', filterProduct)
   const loadingProduct = useAppSelector(selectProductLoading);
   const productList = useAppSelector(selectProductList);
   const pagination = useAppSelector(selectProductPagination);
@@ -51,7 +53,7 @@ export function CategoryList (props: ICategoryListProps) {
         dispatch(productActions.fetchProductList(filterProduct));
         const response: ListResponse<Product> = await categoryApi.getProductByCategory(filterProduct);
         
-        console.log('response: ', response);
+        console.log('response product: ', response);
 
         dispatch(productActions.fetchProductListSuccess(response));
       } catch (error) {
@@ -60,7 +62,7 @@ export function CategoryList (props: ICategoryListProps) {
       }
 
     })();
-  }, [dispatch, filter]);
+  }, [dispatch, filterProduct]);
 
   // console.log(categoriesList);
 
@@ -90,10 +92,16 @@ export function CategoryList (props: ICategoryListProps) {
   : 1;
 
 
-  const handlePageChange = () => {
-    //setCurrentPage(selected + 1);
-    // navigate(`?page=${selected + 1}`, { replace: true })}
-    console.log('selected');
+  const handlePageChange = ({ selected }) => {
+    const currentPage =  selected + 1;
+    const newFilter: ListParams = {
+      ...filterProduct,
+      page: currentPage || undefined,
+    };
+
+    // console.log('newFilter: ', selected);
+
+    dispatch(productActions.setFilter(newFilter))
   };
 
   // const handlePageChange = ({ selected }) => {
