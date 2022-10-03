@@ -113,3 +113,27 @@
         }
     }
 }
+
+.btn-secondary.add-to-cart {
+    margin-top: 15px;
+}
+
+.Product-Qty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    input {
+        min-width: 203px;
+        border: 1px solid #000;
+    }
+}
+
+.change-qty {
+    background-color: #f0f0f0;
+    width: 51px;
+    height: 51px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
