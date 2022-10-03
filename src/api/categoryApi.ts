@@ -16,7 +16,7 @@ const categoryApi = {
     const paginationFake: PaginationParams = {
       limit: 9,
       page: 1,
-      totalRows: 100
+      totalRows: 12
   }
     return {
       data: productList,

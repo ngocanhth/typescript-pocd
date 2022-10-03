@@ -67,6 +67,8 @@ export function CategoryList (props: ICategoryListProps) {
   const productList = useAppSelector(selectProductList);
   const pagination = useAppSelector(selectProductPagination);
 
+  console.log('productList: ', productList);
+  
   // console.log('pagination:', pagination);
 
   useEffect(() => {
@@ -118,6 +120,8 @@ export function CategoryList (props: ICategoryListProps) {
       slug: undefined
     };
 
+    console.log('clear filter newFilter category: ', newFilter);
+
     const newFilterProduct: ListParams = {
       ...queryParams,
       page: 1,
@@ -125,8 +129,15 @@ export function CategoryList (props: ICategoryListProps) {
       sort: undefined
     };
 
+    console.log('clear filter newFilterProduct: ', newFilterProduct);
+
     dispatch(categoryActions.setFilter(newFilter));
     dispatch(productActions.setFilter(newFilterProduct));
+
+    history.push({
+      pathname: history.location.pathname,
+      search: queryString.stringify(newFilterProduct),
+    });
   };
 
  
@@ -137,6 +148,9 @@ export function CategoryList (props: ICategoryListProps) {
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     const currentPage =  selected + 1;
+
+    console.log('queryParams handlePageChange: ', queryParams);
+
     const newFilter: ListParams = {
       ...queryParams,
       page: currentPage || undefined,
@@ -176,19 +190,27 @@ export function CategoryList (props: ICategoryListProps) {
             <button className="btn-secondary" onClick={handleClearFilter}>
               Clear Filter
             </button>
-              {categoriesList.length > 0 ?categoriesList.map((category) => (
-                <ul key = {category.uuid}>
-                  <li>
+              {
+              categoriesList.length > 0 ?(
+              <ul>
+                {
+                  categoriesList.map((category) => 
+                  (
+                  <li key = {category.uuid}>
                     <input onChange={handleCategoryChange} name="category" value = {(category.slug as string).split('/')[(category.slug as string).split('/').length - 1]} id={category.uuid} type="radio"/>
                     <label htmlFor={category.uuid}>
                       {category.name}
                     </label>
                   </li>
-                </ul>
-              )): (<div> No children category found</div>) }
+                  )
+                  )
+                }
+              </ul>
+              ): (<div> No children category found</div>) 
+              }
         </div>
         <div className='category-list'>
-          {!isNil(productList) ? (
+          {!isNil(productList) && productList.length > 0 ? (
                   <>
                   <select
                     value={filterProduct.sort ? `${filterProduct.sort}` : ''}
@@ -203,11 +225,18 @@ export function CategoryList (props: ICategoryListProps) {
                     <option value="name-z-a">Name - Z to A</option>
                   </select>
                     <ProductsList productList={productList} />
-                    <Pagination
-                      initialPage={pageNumber - 1}
-                      pagesCount={Math.ceil(pagination.totalRows / pagination.limit)}
-                      onChange={handlePageChange}
-                    />
+                    {
+                     productList.length > 0 && pagination.totalRows > pagination.limit ? (
+                        <>
+                            <Pagination
+                              initialPage={pageNumber - 1}
+                              pagesCount={Math.ceil(pagination.totalRows / pagination.limit)}
+                              onChange={handlePageChange}
+                            />
+                        </>
+                      ): <></>
+                    }
+                
                   </>
             ) : (
               <>
