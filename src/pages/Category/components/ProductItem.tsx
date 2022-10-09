@@ -1,4 +1,7 @@
+import categoryApi from "@/api/categoryApi";
 import { Product } from "@/models";
+import { cartActions } from "@/store/cartSlice";
+import { useAppDispatch } from "@/store/hooks";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -6,7 +9,14 @@ export interface IProductProps {
   product: Product;
 }
 
+export interface ProductCartPayload {
+  product_sku: string;
+  product_price: number;
+  product_quantity: number
+}
+
 export const ProductItem: React.FC<IProductProps> = ({ product }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [qty, setQty] = useState(1);
 
@@ -20,8 +30,20 @@ export const ProductItem: React.FC<IProductProps> = ({ product }) => {
     setQty(qty);
   }
 
-  const handleAddToCart = () => {
-    
+  const handleAddToCart = async (productPayload: ProductCartPayload ) => {
+   console.log(productPayload)
+   const {product_sku, product_quantity, product_price} = productPayload
+
+   dispatch(cartActions.addToCart(productPayload));
+   const cartItems: any = await categoryApi.addToCart(productPayload);
+  }
+
+  // console.log("product: ", product);
+
+  const productPayload = {
+    'product_sku': product.sku,
+    'product_quantity': 1,
+    'product_price': product.price
   }
 
   return (
@@ -40,11 +62,11 @@ export const ProductItem: React.FC<IProductProps> = ({ product }) => {
         <div className="Product-Price">{product.price}$</div>
         <div className="Product-Qty">
           <span onClick={() => handleDecreaseQty} className="decrease change-qty">-</span>
-          <input type="text"/>
+          <input type="text" />
           <span className="increase change-qty">+</span>
         </div>
         <div className="Product-Action">
-        <button onClick={handleAddToCart} className="btn-secondary add-to-cart">Add to cart</button>
+        <button onClick={() => handleAddToCart(productPayload)} className="btn-secondary add-to-cart">Add to cart</button>
         </div>
       </div>
     </Link>

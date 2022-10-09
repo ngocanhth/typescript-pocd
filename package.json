@@ -24,6 +24,7 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "react-slick": "^0.29.0",
+    "react-toastify": "^9.0.8",
     "redux-persist": "^6.0.0",
     "slick-carousel": "^1.8.1",
     "tailwindcss-labeled-groups": "^0.0.2",
